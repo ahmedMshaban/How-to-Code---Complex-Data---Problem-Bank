@@ -87,7 +87,7 @@
 
 ;<template from ListOfNumber>
 
-(define (positive-only lon) (sign positive? lon))
+(define (positive-only lon) (filter2 positive? lon))
 
 ;; ListOfNumber -> ListOfNumber
 ;; produce list with only negative? elements of lon
@@ -98,12 +98,21 @@
 
 ;<template from ListOfNumber>
 
-(define (negative-only lon) (sign negative? lon))
+(define (negative-only lon) (filter2 negative? lon))
 
-(define (sign d lon)
+
+;; given a list, produce a list of only the elements that satisfy the predicate sign
+
+(check-expect (filter2 negative? empty) empty)
+(check-expect (filter2 positive? empty) empty)
+(check-expect (filter2 negative? (list 1 -2 3 -4)) (list -2 -4))
+(check-expect (filter2 positive? (list 1 -2 3 -4)) (list 1 3))
+(check-expect (filter2 false? (list false true false false true)) (list false false false))
+
+(define (filter2 sign lon)
   (cond [(empty? lon) empty]
         [else
-         (if (d (first lon))
+         (if (sign (first lon))
              (cons (first lon)
-                   (sign d (rest lon)))
-             (sign d (rest lon)))]))
+                   (filter2 sign (rest lon)))
+             (filter2 sign (rest lon)))]))
