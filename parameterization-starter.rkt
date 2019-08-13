@@ -69,6 +69,8 @@
 
 (define (square-roots lon) (map2 sqrt lon))
 
+;; (X -> Y) (listof Y) -> (listof Y)
+
 (define (map2 fn lon)
   (cond [(empty? lon) empty]
         [else
@@ -100,7 +102,7 @@
 
 (define (negative-only lon) (filter2 negative? lon))
 
-
+;; (X -> Boolean) (listof X) -> (listof X)
 ;; given a list, produce a list of only the elements that satisfy the predicate sign
 
 (check-expect (filter2 negative? empty) empty)
